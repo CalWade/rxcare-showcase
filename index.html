@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>rxcare — 适老化医疗看护 App · 韦贺文</title>
-<meta name="description" content="基于 uni-app + Vue3 的适老化医疗看护 App。集成 BLE 智能拐杖、多场景 AI 问诊、手语识别、像素级身体部位选择。中国大学生计算机设计大赛国家级一等奖作品。" />
+<title>RXcare — 无障碍全周期医疗健康 App · 韦贺文</title>
+<meta name="description" content="基于 uni-app + Vue3 的适老化医疗健康 App，配套智能拐杖硬件与 Web 医护端，覆盖诊前-诊中-诊后全流程。中国大学生计算机设计大赛作品。" />
 <meta name="author" content="韦贺文 CalWade" />
-<meta property="og:title" content="rxcare — 适老化医疗看护 App" />
-<meta property="og:description" content="uni-app + Vue3 · BLE 传感 · 多 Agent 问诊 · WebView 渲染热路径 · 国赛一等奖" />
+<meta property="og:title" content="RXcare — 无障碍全周期医疗健康 App" />
+<meta property="og:description" content="标准版 + 关护版双模式 · 智能导诊 · 医疗问答 · 智能拐杖 · 大学生计算机设计大赛作品" />
 <meta property="og:type" content="website" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>" />
 
-<!-- Preconnect & fonts: ensure CJK glyphs render everywhere, fallback to system fonts if blocked -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,383 +27,447 @@
     --accent:#00d4aa;
     --accent-dim:rgba(0,212,170,.1);
     --gold:#ffd24d;
-    --danger:#ff6b6b;
-    --radius:14px;
-    --radius-sm:8px;
-    --maxw:1120px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth}
   body{
-    font-family:"Inter","Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:'Inter','Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
     background:var(--bg);
     color:var(--text);
     line-height:1.65;
-    font-size:15px;
-    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
   }
-  a{color:var(--accent);text-decoration:none;transition:opacity .15s}
-  a:hover{opacity:.78}
-  ::selection{background:var(--accent);color:#000}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{opacity:.8}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* ————— Layout ————— */
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  section{padding:88px 0;border-bottom:1px solid var(--border)}
-  section:last-of-type{border-bottom:none}
-  h2{font-size:28px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em}
-  h3{font-size:18px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
-  .eyebrow{
-    display:inline-block;
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin-bottom:16px;
-  }
-  .lead{color:var(--text-dim);font-size:16px;max-width:680px;margin-bottom:48px}
-
-  /* ————— Nav ————— */
-  nav{
-    position:sticky;top:0;z-index:50;
-    background:rgba(10,10,11,.72);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
+  /* ============ HERO ============ */
+  header.hero{
+    padding:88px 0 64px;
     border-bottom:1px solid var(--border);
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,212,170,.12), transparent 70%),
+      var(--bg);
   }
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px;padding-bottom:16px}
-  .logo{font-weight:700;font-size:17px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
-  .logo-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
-  .nav-links{display:flex;gap:28px;font-size:14px}
-  .nav-links a{color:var(--text-dim)}
-  .nav-links a:hover{color:var(--text)}
-  @media (max-width:640px){.nav-links{display:none}}
-
-  /* ————— Hero ————— */
-  .hero{padding:120px 0 96px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-  .hero::before{
-    content:'';position:absolute;inset:0;
-    background:radial-gradient(ellipse 80% 50% at 50% -20%,var(--accent-dim),transparent 70%);
-    pointer-events:none;
+  .hero .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+  @media(max-width:820px){.hero .wrap{grid-template-columns:1fr;gap:32px}}
+  .tag{
+    display:inline-block;
+    padding:4px 12px;
+    font-size:12px;font-weight:600;letter-spacing:.5px;
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent);border-radius:4px;
+    margin-bottom:20px;
   }
-  .hero-inner{position:relative;z-index:1}
-  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
-  .badge{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:5px 11px;
-    background:var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:99px;
-    font-size:12px;
-    color:var(--text-dim);
-  }
-  .badge.gold{border-color:rgba(255,210,77,.35);color:var(--gold);background:rgba(255,210,77,.06)}
-  .badge.accent{border-color:rgba(0,212,170,.3);color:var(--accent);background:var(--accent-dim)}
   h1{
-    font-size:56px;font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:20px;
-    background:linear-gradient(180deg,#fff 0%,#b5b5bd 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-size:clamp(32px,5vw,52px);
+    font-weight:800;
+    line-height:1.15;
+    margin-bottom:18px;
+    letter-spacing:-.02em;
   }
-  .hero-sub{font-size:19px;color:var(--text-dim);max-width:640px;margin-bottom:40px;line-height:1.55}
-  .hero-sub strong{color:var(--text);font-weight:600}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
-  .btn{
-    display:inline-flex;align-items:center;gap:7px;
-    padding:11px 20px;
-    border-radius:var(--radius-sm);
-    font-size:14px;font-weight:500;
-    transition:all .15s;
-    border:1px solid transparent;
+  h1 span{color:var(--accent)}
+  .subtitle{
+    font-size:18px;color:var(--text-dim);margin-bottom:28px;max-width:500px;
   }
-  .btn-primary{background:var(--accent);color:#000;font-weight:600}
-  .btn-primary:hover{background:#00e8ba;opacity:1}
-  .btn-ghost{background:transparent;color:var(--text);border-color:var(--border)}
-  .btn-ghost:hover{background:var(--bg-card);opacity:1}
-  @media (max-width:640px){h1{font-size:40px}.hero{padding:72px 0 60px}}
+  .meta-row{
+    display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--text-muted);
+  }
+  .meta-row strong{color:var(--text-dim);font-weight:500}
+  .hero-art{
+    display:flex;gap:12px;justify-content:center;
+  }
+  .hero-phone{
+    width:160px;border-radius:18px;border:6px solid #1f1f24;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+  }
+  .hero-phone:nth-child(2){margin-top:40px}
+  .hero-phone:nth-child(3){margin-top:20px}
 
-  /* ————— Award ————— */
-  .award-card{
-    display:flex;align-items:center;gap:24px;
-    padding:28px 32px;
-    background:linear-gradient(135deg,rgba(255,210,77,.08),transparent 60%);
-    border:1px solid rgba(255,210,77,.25);
-    border-radius:var(--radius);
+  /* ============ SECTION ============ */
+  section{padding:80px 0;border-bottom:1px solid var(--border)}
+  section:last-child{border-bottom:none}
+  .section-title{
+    font-size:28px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em;
   }
-  .award-icon{font-size:52px;flex-shrink:0}
-  .award-body h3{color:var(--gold);font-size:19px;margin-bottom:4px}
-  .award-body p{color:var(--text-dim);font-size:14px}
-  @media (max-width:640px){.award-card{flex-direction:column;text-align:center;padding:28px 24px}}
+  .section-sub{color:var(--text-dim);margin-bottom:40px;font-size:15px;max-width:720px}
 
-  /* ————— Features ————— */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-  .card{
-    padding:28px 26px;
-    background:var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    transition:border-color .18s,transform .18s;
+  /* ============ 概览：三端协同 ============ */
+  .three-cols{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
   }
-  .card:hover{border-color:#3a3a44;transform:translateY(-2px)}
-  .card-icon{
-    width:40px;height:40px;
-    display:flex;align-items:center;justify-content:center;
-    background:var(--accent-dim);border-radius:10px;
-    margin-bottom:16px;font-size:20px;
+  @media(max-width:720px){.three-cols{grid-template-columns:1fr}}
+  .col{
+    background:var(--bg-card);border:1px solid var(--border);
+    border-radius:10px;padding:24px;
   }
-  .card h3{margin-bottom:8px}
-  .card p{color:var(--text-dim);font-size:14px;line-height:1.6}
-  .card .tag{display:inline-block;margin-top:12px;font-size:11px;color:var(--text-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
-
-  /* ————— Stack ————— */
-  .stack-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:14px;
-  }
-  .stack-table th,.stack-table td{
-    text-align:left;padding:14px 16px;border-bottom:1px solid var(--border);
-  }
-  .stack-table th{color:var(--text-muted);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
-  .stack-table td:first-child{color:var(--accent);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;width:180px}
-  .stack-table td:nth-child(2){font-weight:500}
-  .stack-table td:nth-child(3){color:var(--text-dim)}
-  @media (max-width:640px){.stack-table td:nth-child(3){display:none}.stack-table th:nth-child(3){display:none}}
-
-  /* ————— Highlights ————— */
-  .highlight{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border)}
-  .highlight:last-child{border-bottom:none}
-  .highlight-num{
-    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
-    color:var(--accent);font-size:14px;flex-shrink:0;padding-top:2px;
-  }
-  .highlight-body h3{margin-bottom:6px}
-  .highlight-body p{color:var(--text-dim);font-size:14px}
-  .highlight-body code{
-    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
-    background:var(--bg-soft);padding:1px 7px;border-radius:4px;
-    font-size:12.5px;color:var(--accent);
+  .col-icon{font-size:28px;margin-bottom:12px}
+  .col h3{font-size:17px;margin-bottom:8px;color:var(--text)}
+  .col p{font-size:14px;color:var(--text-dim);line-height:1.6}
+  .col .mine{
+    margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);
+    font-size:13px;color:var(--accent);font-weight:500;
   }
 
-  /* ————— Footer ————— */
+  /* ============ 功能模块 ============ */
+  .feature-block{
+    margin-bottom:56px;
+  }
+  .feature-block:last-child{margin-bottom:0}
+  .feature-head{
+    display:flex;align-items:baseline;gap:14px;margin-bottom:8px;
+    border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:20px;
+  }
+  .feature-num{
+    font-size:14px;font-weight:700;color:var(--accent);letter-spacing:1px;
+  }
+  .feature-title{font-size:22px;font-weight:700}
+  .feature-desc{color:var(--text-dim);font-size:15px;margin-bottom:20px;max-width:800px}
+  .screens{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  }
+  @media(max-width:720px){.screens{grid-template-columns:repeat(2,1fr)}}
+  .screen{
+    background:var(--bg-soft);border:1px solid var(--border);
+    border-radius:12px;overflow:hidden;
+    transition:transform .2s, border-color .2s;
+  }
+  .screen:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .screen img{width:100%;display:block}
+  .screen-cap{
+    padding:10px 14px;font-size:13px;color:var(--text-dim);
+    border-top:1px solid var(--border);
+  }
+
+  /* ============ 技术栈表 ============ */
+  .tech-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  }
+  @media(max-width:720px){.tech-grid{grid-template-columns:repeat(2,1fr)}}
+  .tech-card{
+    background:var(--bg-card);border:1px solid var(--border);
+    border-radius:8px;padding:18px;
+  }
+  .tech-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+  .tech-value{font-size:14px;color:var(--text);font-weight:500;line-height:1.5}
+
+  /* ============ 团队 / 获奖 ============ */
+  .award{
+    background:linear-gradient(135deg, rgba(255,210,77,.08), rgba(0,212,170,.08));
+    border:1px solid rgba(255,210,77,.3);
+    border-radius:12px;padding:28px 32px;
+  }
+  .award-label{
+    font-size:12px;color:var(--gold);font-weight:600;letter-spacing:1px;margin-bottom:10px;
+  }
+  .award-title{font-size:20px;font-weight:700;margin-bottom:8px}
+  .award-desc{color:var(--text-dim);font-size:15px;line-height:1.7}
+  .award-team{
+    margin-top:18px;padding-top:18px;border-top:1px dashed var(--border);
+    font-size:14px;color:var(--text-dim);
+  }
+  .award-team strong{color:var(--text);font-weight:600}
+
+  /* ============ footer ============ */
   footer{
-    padding:40px 0 48px;
-    text-align:center;
-    color:var(--text-muted);
-    font-size:13px;
+    padding:40px 0;text-align:center;color:var(--text-muted);font-size:13px;
     border-top:1px solid var(--border);
   }
   footer a{color:var(--text-dim)}
-  footer p+p{margin-top:8px}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="wrap">
-    <div class="logo"><span class="logo-dot"></span>rxcare</div>
-    <div class="nav-links">
-      <a href="#award">荣誉</a>
-      <a href="#features">功能</a>
-      <a href="#stack">技术栈</a>
-      <a href="#highlights">亮点</a>
-      <a href="#contact">联系</a>
-    </div>
-  </div>
-</nav>
-
-<!-- ══════ HERO ══════ -->
+<!-- ============ HERO ============ -->
 <header class="hero">
-  <div class="wrap hero-inner">
-    <div class="badge-row">
-      <span class="badge gold">🏆 国赛一等奖</span>
-      <span class="badge accent">uni-app + Vue3</span>
-      <span class="badge">BLE · WebSocket · Canvas</span>
+  <div class="wrap">
+    <div>
+      <span class="tag">🏆 中国大学生计算机设计大赛参赛作品</span>
+      <h1>RXcare<br/><span>以科技温暖医疗</span></h1>
+      <p class="subtitle">
+        无障碍全周期医疗健康服务系统 ·
+        <strong>App 用户端 + Web 医护端 + 物联网智能拐杖</strong>
+        三端协同，覆盖诊前、诊中、诊后全流程。
+      </p>
+      <div class="meta-row">
+        <span><strong>作品编号：</strong>2025072180</span>
+        <span><strong>版本：</strong>1.2.0</span>
+        <span><strong>技术栈：</strong>uni-app · Vue 3 · HBuilderX</span>
+      </div>
     </div>
-    <h1>rxcare<br/>适老化医疗看护 App</h1>
-    <p class="hero-sub">
-      为老年用户设计的医疗全流程助手。集成 <strong>BLE 智能拐杖传感</strong>、
-      <strong>多场景 AI 问诊</strong>、<strong>手语识别</strong> 与
-      <strong>像素级身体部位选择</strong>，
-      覆盖挂号、问诊、院中陪护、紧急呼叫全链路。
-    </p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CalWade/rxcare" target="_blank" rel="noopener">
-        查看源码 →
-      </a>
-      <a class="btn btn-ghost" href="#highlights">技术亮点</a>
+    <div class="hero-art">
+      <img src="assets/app/home-1.jpg" alt="RXcare 首页-标准版" class="hero-phone"/>
+      <img src="assets/app/triage-2.jpg" alt="RXcare 智能导诊" class="hero-phone"/>
+      <img src="assets/app/care-1.jpg" alt="RXcare 关爱模块" class="hero-phone"/>
     </div>
   </div>
 </header>
 
-<!-- ══════ AWARD ══════ -->
-<section id="award">
+<!-- ============ 三端协同 ============ -->
+<section>
   <div class="wrap">
-    <span class="eyebrow">Recognition</span>
-    <h2>荣誉</h2>
-    <p class="lead">这份作品在 2024–2025 年度获得国家级赛事认可。</p>
-
-    <div class="award-card">
-      <div class="award-icon">🏆</div>
-      <div class="award-body">
-        <h3>中国大学生计算机设计大赛 · 国家级一等奖</h3>
-        <p>面向全国本科生的主流 CS 作品赛事（教育部指导）· 作品：rxcare 适老化医疗看护 App</p>
+    <h2 class="section-title">三端协同架构</h2>
+    <p class="section-sub">
+      APP 端、Web 医护端、智能拐杖硬件端实时交互，数据贯通整个医疗场景。
+    </p>
+    <div class="three-cols">
+      <div class="col">
+        <div class="col-icon">📱</div>
+        <h3>移动 App 端</h3>
+        <p>标准版 + 关护版双模式设计。基于 uni-app + Vue3 跨平台构建，面向患者提供完整就医闭环。</p>
+        <div class="mine">我的主要贡献</div>
+      </div>
+      <div class="col">
+        <div class="col-icon">💻</div>
+        <h3>Web 医护端</h3>
+        <p>医生工作台。集成患者管理、智能随访、处方开具等模块，基于 Vue 3 + Element Plus + ECharts 构建。</p>
+      </div>
+      <div class="col">
+        <div class="col-icon">🦯</div>
+        <h3>智能拐杖硬件</h3>
+        <p>STM32F103 + 超声波 + IMU + BLE 5.0。跌倒检测、距离预警、一键呼救，实时同步到 App。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════ FEATURES ══════ -->
-<section id="features">
+<!-- ============ 功能展示：按文档章节展开 ============ -->
+<section>
   <div class="wrap">
-    <span class="eyebrow">Features</span>
-    <h2>核心功能</h2>
-    <p class="lead">围绕"老人能用、子女放心"设计，每个功能都对应真实场景而非 demo。</p>
+    <h2 class="section-title">App 核心功能</h2>
+    <p class="section-sub">
+      每个模块都区分 <strong style="color:var(--accent)">标准版</strong>（普通用户）和 <strong style="color:var(--gold)">关护版</strong>（老年/特殊群体）两套界面。
+    </p>
 
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">🩺</div>
-        <h3>多场景 AI 问诊</h3>
-        <p>5 个垂直医疗 Agent（智能导诊 / 用药咨询 / 情绪疏导 / 营养指导 / 科室介绍），前端抽象统一 AIChat 组件 + useChatApi Hook，SSE 流式打字机效果。</p>
-        <span class="tag">components/AIChat + composables/useChatApi.js</span>
+    <!-- 登录与首页 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">01</span>
+        <span class="feature-title">登录与首页</span>
       </div>
-
-      <div class="card">
-        <div class="card-icon">🦯</div>
-        <h3>BLE 智能拐杖</h3>
-        <p>通过蓝牙 Notify 实时接收 S1/S2/S3 姿态数据。S3 持续 2 秒触发危险阈值时，自动通过 Android 原生 Intent 拨打紧急联系人。</p>
-        <span class="tag">stores/bluetooth.js + Bluetooth_crutch.vue</span>
+      <p class="feature-desc">
+        根据用户群体分流：标准版提供完整功能体验和现代化交互；关护版面向老年人和特殊需求群体，采用更大字体、简化操作流程、明确色彩对比和语音辅助功能，降低数字鸿沟。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/home-1.jpg" alt="首页"/><div class="screen-cap">首页 · 标准版</div></div>
+        <div class="screen"><img src="assets/app/home-2.jpg" alt="首页"/><div class="screen-cap">首页 · 关护版</div></div>
+        <div class="screen"><img src="assets/app/home-3.jpg" alt="首页"/><div class="screen-cap">首页 · 快捷入口</div></div>
       </div>
+    </div>
 
-      <div class="card">
-        <div class="card-icon">🤟</div>
-        <h3>手语识别</h3>
-        <p>Web-View 内独立运行摄像头采集。FPS_LADDER 11 档自适应帧率、运动检测预过滤，静止帧过滤率可达 40%，通过 Socket.IO 回传服务端。</p>
-        <span class="tag">hybrid/html/sign.html</span>
+    <!-- 智能导诊 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">02</span>
+        <span class="feature-title">智能导诊</span>
       </div>
-
-      <div class="card">
-        <div class="card-icon">🎯</div>
-        <h3>像素级身体部位选择</h3>
-        <p>离屏 Canvas + 颜色掩膜映射。用户点击人体图任意位置，通过读取对应坐标色值精准识别部位，支持复杂形状（头 / 胸 / 脚 / 手）无重叠。</p>
-        <span class="tag">components/BodyChart/BodyChart.vue</span>
+      <p class="feature-desc">
+        融合人体图部位选择、FPS-R 疼痛等级评估（1-6 级标准化）与多轮智能问询，精准匹配科室与医生，规划"挂号 → 检查 → 取药"全流程就诊路径。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/triage-1.jpg" alt="人体部位选择"/><div class="screen-cap">人体部位选择</div></div>
+        <div class="screen"><img src="assets/app/triage-2.jpg" alt="疼痛等级评估"/><div class="screen-cap">FPS-R 疼痛量化</div></div>
+        <div class="screen"><img src="assets/app/triage-3.jpg" alt="科室推荐"/><div class="screen-cap">科室/医生匹配</div></div>
       </div>
+    </div>
 
-      <div class="card">
-        <div class="card-icon">🔊</div>
-        <h3>语音识别与对话</h3>
-        <p>MediaRecorder + WebSocket 流式上传，低延迟返回识别结果。适老化语音优先 UX，降低文字输入门槛。</p>
-        <span class="tag">pages/Speech_caring</span>
+    <!-- 医疗问答 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">03</span>
+        <span class="feature-title">医疗问答（问诊精灵）</span>
       </div>
+      <p class="feature-desc">
+        基于 LangChain 多智能体（领域判断 → 查询生成 → 答案合成）与 Neo4j 医疗知识图谱协同，生成含病症分析、急诊预警及就医指导的智能报告。团队实测准确率 <strong>91.8%+</strong>。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/chat-1.jpg" alt="问答入口"/><div class="screen-cap">问答入口</div></div>
+        <div class="screen"><img src="assets/app/chat-2.jpg" alt="对话流"/><div class="screen-cap">流式对话</div></div>
+        <div class="screen"><img src="assets/app/chat-3.jpg" alt="智能报告"/><div class="screen-cap">智能就医报告</div></div>
+      </div>
+    </div>
 
-      <div class="card">
-        <div class="card-icon">👥</div>
-        <h3>双角色 UI 架构</h3>
-        <p>老人端与看护者端独立路由树 + 独立 TabBar 组件，共享 Pinia 数据层。两套信息密度与字号，避免一刀切降级。</p>
-        <span class="tag">pages/*_caring 系列</span>
+    <!-- 关爱模块 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">04</span>
+        <span class="feature-title">关爱模块（智能拐杖 / 手语 / 智能输入）</span>
+      </div>
+      <p class="feature-desc">
+        <strong>智能拐杖</strong>：连接 BLE 硬件，实时监测行走状态，跌倒风险预警与自动求助。<br/>
+        <strong>手语识别</strong>：实时手语转文字/语音，帮助听障人士与医护人员顺畅沟通。<br/>
+        <strong>智能输入</strong>：语音转文字填表，简化表单，减少重复输入。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/care-1.jpg" alt="智能拐杖"/><div class="screen-cap">智能拐杖 · BLE 连接</div></div>
+        <div class="screen"><img src="assets/app/care-2.jpg" alt="手语识别"/><div class="screen-cap">手语识别</div></div>
+        <div class="screen"><img src="assets/app/care-3.jpg" alt="智能输入"/><div class="screen-cap">智能输入</div></div>
+      </div>
+    </div>
+
+    <!-- AI 协助 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">05</span>
+        <span class="feature-title">AI 协助问答</span>
+      </div>
+      <p class="feature-desc">
+        <strong>药物咨询</strong>：扫描药品包装获取用药指导，评估相互作用和不良反应。<br/>
+        <strong>营养师</strong>：基于体检与病情提供个性化饮食建议。<br/>
+        <strong>心理疏导</strong>：匿名心理咨询，情绪管理与压力缓解。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/aihelp-1.jpg" alt="药物咨询"/><div class="screen-cap">药物咨询</div></div>
+        <div class="screen"><img src="assets/app/aihelp-2.jpg" alt="营养师"/><div class="screen-cap">营养师</div></div>
+        <div class="screen"><img src="assets/app/aihelp-3.jpg" alt="心理疏导"/><div class="screen-cap">心理疏导</div></div>
+      </div>
+    </div>
+
+    <!-- 院内信息化 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">06</span>
+        <span class="feature-title">院内信息化服务</span>
+      </div>
+      <p class="feature-desc">
+        <strong>院内导航</strong>：3D 医院地图 + 最佳路径规划 + 语音引导，避免院内迷路。<br/>
+        <strong>门诊缴费</strong>：一键支付，账单明细，医保直连。<br/>
+        <strong>就诊凭证</strong>：电子化存储，快速出示，无需纸质材料。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/info-1.jpg" alt="院内导航"/><div class="screen-cap">3D 院内导航</div></div>
+        <div class="screen"><img src="assets/app/info-2.jpg" alt="门诊缴费"/><div class="screen-cap">门诊缴费</div></div>
+        <div class="screen"><img src="assets/app/info-3.jpg" alt="就诊凭证"/><div class="screen-cap">就诊凭证</div></div>
+      </div>
+    </div>
+
+    <!-- 医患交互 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">07</span>
+        <span class="feature-title">医患交互</span>
+      </div>
+      <p class="feature-desc">
+        <strong>智能挂号</strong>：选择医生、日期和时段，实时号源，一键预约。<br/>
+        <strong>叫号提醒</strong>：到号前 10 分钟提醒，避免漏诊。<br/>
+        <strong>智能随访 / 安心医程</strong>：康复记录、用药提醒、家属远程管理。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/interact-1.jpg" alt="挂号"/><div class="screen-cap">智能挂号</div></div>
+        <div class="screen"><img src="assets/app/interact-2.jpg" alt="叫号"/><div class="screen-cap">叫号提醒</div></div>
+        <div class="screen"><img src="assets/app/interact-3.jpg" alt="安心医程"/><div class="screen-cap">安心医程</div></div>
+      </div>
+    </div>
+
+    <!-- 个人数据 / 社区 -->
+    <div class="feature-block">
+      <div class="feature-head">
+        <span class="feature-num">08</span>
+        <span class="feature-title">个人数据 & 健康社区</span>
+      </div>
+      <p class="feature-desc">
+        <strong>健康档案</strong>：整合血压、血糖、体重等数据，趋势图表可视化，支持导出完整档案。<br/>
+        <strong>Care 社区</strong>：按疾病主题划分专区（糖尿病、心脑血管、孕产等），匿名提问与经验分享。
+      </p>
+      <div class="screens">
+        <div class="screen"><img src="assets/app/profile-1.jpg" alt="健康档案"/><div class="screen-cap">健康档案</div></div>
+        <div class="screen"><img src="assets/app/profile-2.jpg" alt="个人信息"/><div class="screen-cap">个人信息/家庭成员</div></div>
+        <div class="screen"><img src="assets/app/community-1.jpg" alt="社区"/><div class="screen-cap">Care 社区</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 技术栈 ============ -->
+<section>
+  <div class="wrap">
+    <h2 class="section-title">App 端技术栈</h2>
+    <p class="section-sub">来源：作品说明书 §2.1 系统开发平台与运行平台</p>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-label">开发工具</div>
+        <div class="tech-value">HBuilder X 4.45</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">前端框架</div>
+        <div class="tech-value">uni-app + Vue 3.3.4</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">UI 组件</div>
+        <div class="tech-value">uview-plus 3.0</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">状态管理</div>
+        <div class="tech-value">Pinia</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">室内地图</div>
+        <div class="tech-value">蜂鸟地图 fengmap</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">BLE 协议</div>
+        <div class="tech-value">uni.Bluetooth API</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">实时通信</div>
+        <div class="tech-value">WebSocket (手语 / 情感 / 语音)</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label">最低 Android</div>
+        <div class="tech-value">5.0 (API 21)</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════ STACK ══════ -->
-<section id="stack">
+<!-- ============ 团队与作者 ============ -->
+<section>
   <div class="wrap">
-    <span class="eyebrow">Tech Stack</span>
-    <h2>技术选型</h2>
-    <p class="lead">每个选型都有具体理由，不为用而用。</p>
-
-    <table class="stack-table">
-      <thead>
-        <tr><th>模块</th><th>选型</th><th>理由</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>框架</td><td>uni-app + Vue3 Composition API</td><td>跨端一次开发（App / 微信小程序 / H5）</td></tr>
-        <tr><td>状态管理</td><td>Pinia + persistedstate</td><td>按粒度持久化，只存连接身份信息</td></tr>
-        <tr><td>UI 组件</td><td>uview-plus + UnoCSS</td><td>适老化组件齐全，原子化样式</td></tr>
-        <tr><td>流式通信</td><td>SSE（chunked）</td><td>AI 问诊打字机效果</td></tr>
-        <tr><td>实时通信</td><td>Socket.IO 4.6 + 原生 WebSocket</td><td>语音 / 手语分场景选型</td></tr>
-        <tr><td>混合渲染</td><td>uni-app Web-View</td><td>仅用于渲染热路径与第三方 Web SDK</td></tr>
-        <tr><td>原生桥</td><td>plus.android.importClass</td><td>绕开 makePhoneCall 确认拦截，紧急呼叫</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ══════ HIGHLIGHTS ══════ -->
-<section id="highlights">
-  <div class="wrap">
-    <span class="eyebrow">Engineering Highlights</span>
-    <h2>技术亮点</h2>
-    <p class="lead">可讲的工程细节。代码开源可查。</p>
-
-    <div class="highlight">
-      <div class="highlight-num">01</div>
-      <div class="highlight-body">
-        <h3>Hybrid 架构：按需分层，不滥用 WebView</h3>
-        <p>项目只在 <strong>渲染热路径</strong>（手语每帧 Canvas 像素操作）和 <strong>第三方 Web SDK</strong>（蜂鸟 fengmap 室内地图）两种场景用 Web-View。其余 UI 保留在 Vue 组件层以维持响应式。归档了 4 个旧版未使用 HTML。</p>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-num">02</div>
-      <div class="highlight-body">
-        <h3>自适应帧率 + 静止帧预过滤</h3>
-        <p>sign.html 内置 <code>FPS_LADDER</code> 11 档阶梯（3/5/8/10/12/15/20/25/30/45/60）+ 激进降档 / 保守升档策略。运动检测让静止场景过滤率约 <strong>40%</strong>，减少服务端算力与带宽浪费。</p>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-num">03</div>
-      <div class="highlight-body">
-        <h3>Telemetry HUD：真数据验证</h3>
-        <p>页面内嵌实时指标面板（FPS / 丢帧率 / 上行频率 / RTT）+ JSON/Markdown 导出。配合 headless Chrome 自动化脚本做回归测试。</p>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-num">04</div>
-      <div class="highlight-body">
-        <h3>可复用 AI 对话架构</h3>
-        <p><code>useChatApi(agentId, apiBaseUrl)</code> 工厂式 composable + 通用 AIChat 组件，新增一个医疗垂直场景仅需配置 agent 路由。Pinia 按 agentId 分桶持久化多场景上下文。</p>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-num">05</div>
-      <div class="highlight-body">
-        <h3>BLE 协议务实主义</h3>
-        <p>厂家固件 ASCII 明文协议（<code>S1:x#,S2:x#,S3:x#</code>）带宽充裕、现场调试友好，评估后不要求修改。前端只做容错解析与持续 2 秒阈值防抖触发紧急呼叫。</p>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-num">06</div>
-      <div class="highlight-body">
-        <h3>集中化配置管理</h3>
-        <p><code>config/env.js</code> 统一出口所有后端地址（7 个不同端口的服务），18 个 Vue 页面从硬编码 URL 迁到常量引用。切换环境改一个文件即可。</p>
+    <h2 class="section-title">作品团队</h2>
+    <p class="section-sub">本项目为 5 人团队协作的参赛作品</p>
+    <div class="award">
+      <div class="award-label">🏆 中国大学生计算机设计大赛 · 移动应用开发类</div>
+      <div class="award-title">RXcare——基于分级关护与多模态协同的医疗服务系统</div>
+      <p class="award-desc">
+        作品编号 2025072180 ，覆盖 APP 用户端、Web 医护端、物联网智能拐杖三端协同架构。
+        解决就医焦虑、听障人士沟通障碍、老年人流程迷失等社会痛点。
+      </p>
+      <div class="award-team">
+        <strong>团队成员：</strong>王怡文、王嘉泽、<strong style="color:var(--accent)">韦贺文（本站作者，移动端开发）</strong>、王立信、安康
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════ CONTACT ══════ -->
-<section id="contact">
+<!-- ============ 源码 ============ -->
+<section>
   <div class="wrap">
-    <span class="eyebrow">Author</span>
-    <h2>作者</h2>
-    <p class="lead">韦贺文（CalWade），天津理工大学 计算机科学与技术 · 2023 级。</p>
-
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CalWade" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn btn-ghost" href="https://github.com/CalWade/rxcare" target="_blank" rel="noopener">rxcare 源码仓</a>
+    <h2 class="section-title">源码与资料</h2>
+    <p class="section-sub">移动端源码已开源。</p>
+    <div class="three-cols">
+      <div class="col">
+        <div class="col-icon">💻</div>
+        <h3>GitHub 源码</h3>
+        <p><a href="https://github.com/CalWade/rxcare" target="_blank">github.com/CalWade/rxcare</a></p>
+      </div>
+      <div class="col">
+        <div class="col-icon">📄</div>
+        <h3>项目 README</h3>
+        <p><a href="https://github.com/CalWade/rxcare#readme" target="_blank">查看架构与运行说明</a></p>
+      </div>
+      <div class="col">
+        <div class="col-icon">👤</div>
+        <h3>作者主页</h3>
+        <p><a href="https://github.com/CalWade" target="_blank">github.com/CalWade</a></p>
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p>© 2026 CalWade · rxcare showcase</p>
-    <p>Built with plain HTML & CSS · Hosted on GitHub Pages</p>
+    © 2025 韦贺文 CalWade · 天津理工大学 · 产品图片来源于作品说明书 v1.2.0
   </div>
 </footer>
 
