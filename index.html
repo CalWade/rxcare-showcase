@@ -174,6 +174,26 @@
     border-top:1px solid var(--border);
   }
   footer a{color:var(--text-dim)}
+
+  /* ============ 我的贡献 ============ */
+  .contrib-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  @media(max-width:820px){.contrib-grid{grid-template-columns:1fr}}
+  .contrib-card{
+    background:var(--bg-card);border:1px solid var(--border);
+    border-radius:10px;padding:24px;
+    border-top:3px solid var(--accent);
+  }
+  .contrib-icon{font-size:26px;margin-bottom:10px}
+  .contrib-card h3{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--text)}
+  .contrib-card p{font-size:14px;color:var(--text-dim);line-height:1.65}
+  .contrib-card code{
+    font-family:'Fira Code','Consolas',monospace;
+    font-size:12px;color:var(--accent);
+    background:var(--accent-dim);padding:1px 5px;border-radius:3px;
+  }
+
 </style>
 </head>
 <body>
@@ -246,12 +266,12 @@
         <span class="feature-title">登录与首页</span>
       </div>
       <p class="feature-desc">
-        根据用户群体分流：标准版提供完整功能体验和现代化交互；关护版面向老年人和特殊需求群体，采用更大字体、简化操作流程、明确色彩对比和语音辅助功能，降低数字鸿沟。
+        首页以"安心医程"为核心，整合药品提醒、就诊前/中/后快捷入口、健康数据总览。标准版与关护版（大字体·简化流程·语音辅助）双模式，一键切换适配不同群体。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/home-1.jpg" alt="首页"/><div class="screen-cap">首页 · 标准版</div></div>
-        <div class="screen"><img src="assets/app/home-2.jpg" alt="首页"/><div class="screen-cap">首页 · 关护版</div></div>
-        <div class="screen"><img src="assets/app/home-3.jpg" alt="首页"/><div class="screen-cap">首页 · 快捷入口</div></div>
+        <div class="screen"><img src="assets/app/fixed/01-home.jpg" alt="安心医程首页"/><div class="screen-cap">首页 · 标准版</div></div>
+        <div class="screen"><img src="assets/app/fixed/08-profile-dashboard.jpg" alt="健康数据仪表盘"/><div class="screen-cap">健康数据总览</div></div>
+        <div class="screen"><img src="assets/app/fixed/08-profile-trend.jpg" alt="血糖趋势"/><div class="screen-cap">健康趋势图表</div></div>
       </div>
     </div>
 
@@ -262,12 +282,12 @@
         <span class="feature-title">智能导诊</span>
       </div>
       <p class="feature-desc">
-        融合人体图部位选择、FPS-R 疼痛等级评估（1-6 级标准化）与多轮智能问询，精准匹配科室与医生，规划"挂号 → 检查 → 取药"全流程就诊路径。
+        交互式人体图（正/背面切换）点击选择疼痛部位，结合 FPS-R 疼痛量化（1–6 级），通过多轮问答描述症状，最终输出科室推荐与就诊路径规划。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/triage-1.jpg" alt="人体部位选择"/><div class="screen-cap">人体部位选择</div></div>
-        <div class="screen"><img src="assets/app/triage-2.jpg" alt="疼痛等级评估"/><div class="screen-cap">FPS-R 疼痛量化</div></div>
-        <div class="screen"><img src="assets/app/triage-3.jpg" alt="科室推荐"/><div class="screen-cap">科室/医生匹配</div></div>
+        <div class="screen"><img src="assets/app/fixed/02-triage-body-front.jpg" alt="人体图正面"/><div class="screen-cap">人体图 · 选择部位</div></div>
+        <div class="screen"><img src="assets/app/fixed/02-triage-pain-right.jpg" alt="FPS-R 疼痛量化"/><div class="screen-cap">FPS-R 疼痛量化</div></div>
+        <div class="screen"><img src="assets/app/fixed/03-chat-reply.jpg" alt="问诊对话"/><div class="screen-cap">多轮问诊对话</div></div>
       </div>
     </div>
 
@@ -275,15 +295,15 @@
     <div class="feature-block">
       <div class="feature-head">
         <span class="feature-num">03</span>
-        <span class="feature-title">医疗问答（问诊精灵）</span>
+        <span class="feature-title">医疗问答</span>
       </div>
       <p class="feature-desc">
-        基于 LangChain 多智能体（领域判断 → 查询生成 → 答案合成）与 Neo4j 医疗知识图谱协同，生成含病症分析、急诊预警及就医指导的智能报告。团队实测准确率 <strong>91.8%+</strong>。
+        多轮流式问答界面，支持 SSE 边生成边渲染，用户可描述症状并获取包含病症分析、急诊预警与就医建议的智能报告。前端实现渲染热路径优化，避免高频 DOM 更新卡顿。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/chat-1.jpg" alt="问答入口"/><div class="screen-cap">问答入口</div></div>
-        <div class="screen"><img src="assets/app/chat-2.jpg" alt="对话流"/><div class="screen-cap">流式对话</div></div>
-        <div class="screen"><img src="assets/app/chat-3.jpg" alt="智能报告"/><div class="screen-cap">智能就医报告</div></div>
+        <div class="screen"><img src="assets/app/fixed/03-chat-robot.jpg" alt="问诊精灵"/><div class="screen-cap">问诊精灵对话</div></div>
+        <div class="screen"><img src="assets/app/fixed/02-triage-body-back.jpg" alt="部位选择背面"/><div class="screen-cap">人体图 · 背面</div></div>
+        <div class="screen"><img src="assets/app/fixed/02-triage-pain-lower.jpg" alt="疼痛等级下胸部"/><div class="screen-cap">疼痛定位确认</div></div>
       </div>
     </div>
 
@@ -291,17 +311,17 @@
     <div class="feature-block">
       <div class="feature-head">
         <span class="feature-num">04</span>
-        <span class="feature-title">关爱模块（智能拐杖 / 手语 / 智能输入）</span>
+        <span class="feature-title">关爱模块</span>
       </div>
       <p class="feature-desc">
-        <strong>智能拐杖</strong>：连接 BLE 硬件，实时监测行走状态，跌倒风险预警与自动求助。<br/>
-        <strong>手语识别</strong>：实时手语转文字/语音，帮助听障人士与医护人员顺畅沟通。<br/>
-        <strong>智能输入</strong>：语音转文字填表，简化表单，减少重复输入。
+        <strong>智能拐杖</strong>：通过 BLE 5.0 连接硬件，App 端实时显示行走危险等级与预警推送，状态统一托管于 Pinia store。<br/>
+        <strong>手语识别</strong>：WebView 嵌入手语识别模块（sign.html），前端实现自适应帧率与 telemetry 可视化，降低低端机丢帧率。<br/>
+        <strong>语音输入</strong>：WebSocket 长连接实时转写，语音按住说话 → 文字填入表单。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/care-1.jpg" alt="智能拐杖"/><div class="screen-cap">智能拐杖 · BLE 连接</div></div>
-        <div class="screen"><img src="assets/app/care-2.jpg" alt="手语识别"/><div class="screen-cap">手语识别</div></div>
-        <div class="screen"><img src="assets/app/care-3.jpg" alt="智能输入"/><div class="screen-cap">智能输入</div></div>
+        <div class="screen"><img src="assets/app/fixed/04-care-crutch.jpg" alt="智能拐杖危险等级"/><div class="screen-cap">智能拐杖 · 风险等级</div></div>
+        <div class="screen"><img src="assets/app/fixed/04-care-voice.jpg" alt="语音识别"/><div class="screen-cap">语音智能输入</div></div>
+        <div class="screen"><img src="assets/app/fixed/05-ai-drug.jpg" alt="AI 药师"/><div class="screen-cap">AI 药师入口</div></div>
       </div>
     </div>
 
@@ -312,14 +332,15 @@
         <span class="feature-title">AI 协助问答</span>
       </div>
       <p class="feature-desc">
-        <strong>药物咨询</strong>：扫描药品包装获取用药指导，评估相互作用和不良反应。<br/>
-        <strong>营养师</strong>：基于体检与病情提供个性化饮食建议。<br/>
-        <strong>心理疏导</strong>：匿名心理咨询，情绪管理与压力缓解。
+        <strong>AI 药师</strong>：多轮对话获取用药指导，评估药物相互作用。<br/>
+        <strong>AI 营养师</strong>：基于病情与体检数据提供个性化饮食方案。<br/>
+        <strong>AI 情感疏导</strong>：匿名咨询，情绪疏导与压力管理。<br/>
+        三个 AI 助手均通过统一的流式请求封装（SSE）对接后端，共享同一套前端渲染管线。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/aihelp-1.jpg" alt="药物咨询"/><div class="screen-cap">药物咨询</div></div>
-        <div class="screen"><img src="assets/app/aihelp-2.jpg" alt="营养师"/><div class="screen-cap">营养师</div></div>
-        <div class="screen"><img src="assets/app/aihelp-3.jpg" alt="心理疏导"/><div class="screen-cap">心理疏导</div></div>
+        <div class="screen"><img src="assets/app/fixed/05-ai-drug.jpg" alt="AI 药师"/><div class="screen-cap">AI 药师</div></div>
+        <div class="screen"><img src="assets/app/fixed/05-ai-nutrition.jpg" alt="AI 营养师"/><div class="screen-cap">AI 营养师</div></div>
+        <div class="screen"><img src="assets/app/fixed/05-ai-psycho.jpg" alt="AI 情感疏导"/><div class="screen-cap">AI 情感疏导</div></div>
       </div>
     </div>
 
@@ -330,14 +351,14 @@
         <span class="feature-title">院内信息化服务</span>
       </div>
       <p class="feature-desc">
-        <strong>院内导航</strong>：3D 医院地图 + 最佳路径规划 + 语音引导，避免院内迷路。<br/>
-        <strong>门诊缴费</strong>：一键支付，账单明细，医保直连。<br/>
-        <strong>就诊凭证</strong>：电子化存储，快速出示，无需纸质材料。
+        <strong>院内 3D 导航</strong>：基于蜂鸟地图 SDK（fengmap）嵌入室内地图，支持起终点搜索与路径高亮。<br/>
+        <strong>门诊缴费</strong>：挂号费明细展示，一键支付。<br/>
+        <strong>检查结果</strong>：核酸、尿检等检查报告电子化展示，支持历史查询。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/info-1.jpg" alt="院内导航"/><div class="screen-cap">3D 院内导航</div></div>
-        <div class="screen"><img src="assets/app/info-2.jpg" alt="门诊缴费"/><div class="screen-cap">门诊缴费</div></div>
-        <div class="screen"><img src="assets/app/info-3.jpg" alt="就诊凭证"/><div class="screen-cap">就诊凭证</div></div>
+        <div class="screen"><img src="assets/app/fixed/06-info-navigation.jpg" alt="院内3D导航"/><div class="screen-cap">院内 3D 导航</div></div>
+        <div class="screen"><img src="assets/app/fixed/06-info-payment.jpg" alt="门诊缴费"/><div class="screen-cap">门诊缴费</div></div>
+        <div class="screen"><img src="assets/app/fixed/06-info-results.jpg" alt="检查结果"/><div class="screen-cap">检查结果</div></div>
       </div>
     </div>
 
@@ -348,14 +369,14 @@
         <span class="feature-title">医患交互</span>
       </div>
       <p class="feature-desc">
-        <strong>智能挂号</strong>：选择医生、日期和时段，实时号源，一键预约。<br/>
-        <strong>叫号提醒</strong>：到号前 10 分钟提醒，避免漏诊。<br/>
-        <strong>智能随访 / 安心医程</strong>：康复记录、用药提醒、家属远程管理。
+        <strong>医生挂号</strong>：展示医生详情（职称、擅长方向），在线预约挂号。<br/>
+        <strong>住院办理</strong>：新建住院档案，填写基本信息，流程数字化。<br/>
+        <strong>诊后记录</strong>：检查报告详情查看与历史归档。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/interact-1.jpg" alt="挂号"/><div class="screen-cap">智能挂号</div></div>
-        <div class="screen"><img src="assets/app/interact-2.jpg" alt="叫号"/><div class="screen-cap">叫号提醒</div></div>
-        <div class="screen"><img src="assets/app/interact-3.jpg" alt="安心医程"/><div class="screen-cap">安心医程</div></div>
+        <div class="screen"><img src="assets/app/fixed/07-interact-register.jpg" alt="医生挂号"/><div class="screen-cap">医生详情 · 挂号</div></div>
+        <div class="screen"><img src="assets/app/fixed/06-info-hospitalize.jpg" alt="住院办理"/><div class="screen-cap">住院档案办理</div></div>
+        <div class="screen"><img src="assets/app/fixed/06-info-result-detail.jpg" alt="检查结果详情"/><div class="screen-cap">检查结果详情</div></div>
       </div>
     </div>
 
@@ -366,16 +387,65 @@
         <span class="feature-title">个人数据 & 健康社区</span>
       </div>
       <p class="feature-desc">
-        <strong>健康档案</strong>：整合血压、血糖、体重等数据，趋势图表可视化，支持导出完整档案。<br/>
-        <strong>Care 社区</strong>：按疾病主题划分专区（糖尿病、心脑血管、孕产等），匿名提问与经验分享。
+        <strong>健康数据仪表盘</strong>：血糖、血压、心率、体重四维数据卡片总览，趋势图表支持周/月维度切换。<br/>
+        <strong>Care 社区</strong>：讨论圈 + 热门话题双入口，用户可按疾病主题加入圈子交流。
       </p>
       <div class="screens">
-        <div class="screen"><img src="assets/app/profile-1.jpg" alt="健康档案"/><div class="screen-cap">健康档案</div></div>
-        <div class="screen"><img src="assets/app/profile-2.jpg" alt="个人信息"/><div class="screen-cap">个人信息/家庭成员</div></div>
-        <div class="screen"><img src="assets/app/community-1.jpg" alt="社区"/><div class="screen-cap">Care 社区</div></div>
+        <div class="screen"><img src="assets/app/fixed/08-profile-dashboard.jpg" alt="健康数据仪表盘"/><div class="screen-cap">健康数据仪表盘</div></div>
+        <div class="screen"><img src="assets/app/fixed/08-profile-trend.jpg" alt="血糖趋势"/><div class="screen-cap">健康趋势图表</div></div>
+        <div class="screen"><img src="assets/app/fixed/09-community-list.jpg" alt="社区讨论圈"/><div class="screen-cap">Care 社区</div></div>
       </div>
     </div>
 
+  </div>
+</section>
+
+
+<!-- ============ 我的前端技术贡献 ============ -->
+<section>
+  <div class="wrap">
+    <h2 class="section-title">我的前端技术贡献</h2>
+    <p class="section-sub">本站作者（韦贺文）负责移动端全部前端工程，以下是具体技术实现要点。</p>
+
+    <div class="contrib-grid">
+
+      <div class="contrib-card">
+        <div class="contrib-icon">🔀</div>
+        <h3>Hybrid 混合架构</h3>
+        <p>uni-app 原生页面 + WebView 嵌入 HTML 的混合方案。手语识别（sign.html）、手势导航（FMNaviSimulation.html）、语音输入（yuyin.html）均以 WebView 壳承载，通过 <code>UniWebView.postMessage</code> 与原生层双向通信，保留了第三方 JS SDK 的完整能力。</p>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-icon">🦷</div>
+        <h3>蓝牙状态集中管理</h3>
+        <p>将原来散落在 5 个页面的蓝牙扫描/连接/断开逻辑，统一抽离到 <code>stores/bluetooth.js</code>（Pinia）。任意页面订阅同一 store，消除了重复注册监听器与状态不一致的问题。</p>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-icon">⚡</div>
+        <h3>流式问答渲染热路径优化</h3>
+        <p>SSE 流式接口每帧触发 token 追加。通过批量 <code>requestAnimationFrame</code> 合并 DOM 写入，将高频 append 操作从每 token 触发压缩为每帧一次，在低端 Android 设备上显著降低卡顿。</p>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-icon">🖐</div>
+        <h3>手语识别 WebView 性能调优</h3>
+        <p><code>sign.html</code> 内嵌摄像头帧采集与手语推理。针对低端机实现自适应帧率（按设备 FPS 动态降频）、推理耗时 telemetry 可视化（折线图实时展示每帧耗时）、识别历史 CSV 导出，为团队算法调优提供数据支撑。</p>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-icon">🌐</div>
+        <h3>后端配置集中化</h3>
+        <p>抽取 <code>config/env.js</code>，统一管理 7 个后端服务地址（REST API、LangChain Agent、WebSocket 端口 5050/8002/8010）。各页面 import 单一入口，消除硬编码，切换环境只需改一个文件。</p>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-icon">🧩</div>
+        <h3>流式请求统一封装</h3>
+        <p>封装 <code>composables/useChatApi.js</code>，将 SSE 连接建立、token 追加、错误重试、loading 状态统一处理。三个 AI 助手（药师/营养师/情感）共用同一 composable，减少重复代码约 60%。</p>
+      </div>
+
+    </div>
   </div>
 </section>
 
