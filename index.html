@@ -159,6 +159,32 @@
   }
   footer a{color:var(--text-dim)}
 
+  /* ============ Lightbox ============ */
+  .zoomable{cursor:zoom-in}
+  #lightbox{
+    display:none;position:fixed;inset:0;z-index:9999;
+    background:rgba(0,0,0,.92);
+    align-items:center;justify-content:center;
+    padding:24px;
+  }
+  #lightbox.open{display:flex}
+  #lightbox img{
+    max-width:90vw;max-height:90vh;
+    border-radius:10px;
+    object-fit:contain;
+    box-shadow:0 0 60px rgba(0,0,0,.8);
+    animation:lbIn .18s ease;
+  }
+  @keyframes lbIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+  #lightbox-close{
+    position:fixed;top:20px;right:28px;
+    font-size:32px;color:#fff;cursor:pointer;
+    line-height:1;opacity:.7;transition:opacity .15s;
+    user-select:none;
+  }
+  #lightbox-close:hover{opacity:1}
+
+
   /* ============ 获奖展示 ============ */
   .award-cards{display:flex;flex-direction:column;gap:28px}
   .award-card{
@@ -276,8 +302,8 @@
           </div>
         </div>
         <div class="award-card-imgs">
-          <img src="assets/awards/cert-4c-1st.jpg" alt="一等奖证书"/>
-          <img src="assets/awards/award-stage-4c.jpg" alt="颁奖现场"/>
+          <img src="assets/awards/cert-4c-1st.jpg" alt="一等奖证书" onclick="openLightbox(this)" class="zoomable"/>
+          <img src="assets/awards/award-stage-4c.jpg" alt="颁奖现场" onclick="openLightbox(this)" class="zoomable"/>
         </div>
       </div>
 
@@ -295,8 +321,8 @@
           </div>
         </div>
         <div class="award-card-imgs">
-          <img src="assets/awards/cert-cccc-2nd.jpg" alt="二等奖证书"/>
-          <img src="assets/awards/award-stage-cccc.jpg" alt="颁奖现场"/>
+          <img src="assets/awards/cert-cccc-2nd.jpg" alt="二等奖证书" onclick="openLightbox(this)" class="zoomable"/>
+          <img src="assets/awards/award-stage-cccc.jpg" alt="颁奖现场" onclick="openLightbox(this)" class="zoomable"/>
         </div>
       </div>
 
@@ -540,6 +566,26 @@
     © 2025 韦贺文 CalWade · 天津理工大学 · 产品图片来源于作品说明书 v1.2.0
   </div>
 </footer>
+
+
+<div id="lightbox" onclick="closeLightbox()">
+  <span id="lightbox-close" onclick="closeLightbox()">✕</span>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<script>
+function openLightbox(el){
+  document.getElementById('lightbox-img').src = el.src;
+  document.getElementById('lightbox-img').alt = el.alt;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+</script>
 
 </body>
 </html>
